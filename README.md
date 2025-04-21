@@ -63,12 +63,3 @@ npm install
 # Run the development server
 npm run dev
 ```
-## Contributing
-
-If you'd like to contribute to this project, please follow these guidelines:
-
-    Fork the project.
-    Create your feature branch: git checkout -b feature/feature-name.
-    Commit your changes: git commit -m 'Add some feature'.
-    Push to the branch: git push origin feature/feature-name.
-    Submit a pull request.
