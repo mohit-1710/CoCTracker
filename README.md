@@ -1,74 +1,90 @@
-![Project Banner](https://user-images.githubusercontent.com/68379239/270390331-2d91111e-018c-46ed-b224-2f2df1d9bd92.jpg)
+# CoCTracker 🏰
 
-![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+<div align="center">
+<img src="public\Screenshot 2025-04-22 020743.png" alt="Features" width="600"/>
+<hr>
+<img src="public\Screenshot 2025-04-22 020942.png" alt="Features" width="600"/>
+  
+</div>
 
-#### Link - https://coc-nextjs.vercel.app/
+## 🎮 About CoCTracker
+<div align="center">
+  <img src="https://clashcodes.com/bases/th17-anti-super-archer-base-layout-coc-23.jpg" alt="CoCTracker Banner" width="100%"/>
+</div>
 
-## Table of Contents
+CoCTracker is your ultimate companion for tracking and analyzing Clash of Clans player and clan data. Whether you're a casual player or a competitive clan leader, our platform provides real-time statistics, profile management, and detailed analytics to enhance your Clash of Clans experience.
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Demo](#demo)
-- [Setup](#setup)
-- [Usage](#usage)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
+## ✨ Features
 
-## Introduction
+<div align="center">
+<img src="https://i.pinimg.com/474x/dc/8b/c7/dc8bc744de0c50e07a82352a143e6f82.jpg" alt="Clash of Clans" width="300"/>
+</div>
 
-Clash of Clans Profile Tracker is a web application built using Next.js, Tailwind CSS, Next UI, and Framer. It allows gamers and friends to track player and clan data from Clash of Clans. While there are many profile trackers available, this project aims to provide a unique experience by offering custom profile sorting for player experience and a user-friendly interface with dark and light themes, along with smooth animations.
+### 🏆 Player Tracking
+- Real-time player statistics and achievements
+- Detailed troop and hero levels
+- Battle history and war performance
+- Trophy progression tracking
 
-The project also incorporates comment features and team creation, enhancing the social and collaborative aspects of gaming.
+### 👥 Clan Management
+- Comprehensive clan information
+- Member activity monitoring
+- War statistics and history
+- Clan capital progress tracking
 
-## Features
+### 🎨 User Experience
+- Dark and light theme support
+- Smooth animations and transitions
+- Mobile-responsive design
+- Intuitive user interface
 
-- Fetch and display Clash of Clans player and clan data using the Clash of Clans API.
-- Custom profile sorting based on player experience.
-- User-friendly interface designed with Next UI and Framer, offering both dark and light themes.
-- Comment feature for users to interact and discuss profiles.
-- Team creation functionality for collaborative gaming experiences.
-- Firebase integration for data storage.
-- Authentication using next-auth for team creation , comments and boookmarks. 
+## 🛠️ Technologies
 
-## Technologies Used
+<div align="center">
+  <img src="https://i.pinimg.com/736x/6e/35/e7/6e35e7e4b0c18e0b1b70df5c9c7d6744.jpg" alt="Tech Stack" width="600"/>
+</div>
 
-- Next.js
-- Tailwind CSS
-- Recoil.js (making player data global inside app)
-- Next UI (built in framer-motion)
-- Next-auth (currently Auth.js)
-- Express (for API data fetching)
-- Firebase (for data storage)
+- **Frontend**: Next.js 13, React, TypeScript, Tailwind CSS, Shadcn UI
+- **Backend**: Firebase, Clash of Clans API
+- **Deployment**: Vercel
 
-## Setup
+## 🚀 Getting Started
 
-If someone wants to run your project locally, provide detailed instructions on how to do so. Include any dependencies that need to be installed, environment setup, or configuration steps.
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- Firebase account
+- Clash of Clans API key
 
+### Installation
+1. Clone the repository:
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/your-repo.git
-
-# Navigate to the project folder
-cd your-repo
-
-# Install dependencies
-npm install
-
-# Configure environment variables
-# Create a .env.local file and add your Firebase configuration
-# For Firebase, you'll need API keys and credentials.
-
-# Run the development server
-npm run dev
+git clone https://github.com/yourusername/CoCTracker.git
+cd CoCTracker
 ```
-## Contributing
 
-If you'd like to contribute to this project, please follow these guidelines:
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
 
-    Fork the project.
-    Create your feature branch: git checkout -b feature/feature-name.
-    Commit your changes: git commit -m 'Add some feature'.
-    Push to the branch: git push origin feature/feature-name.
-    Submit a pull request.
+3. Create a `.env.local` file with your credentials:
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
+CLASH_OF_CLANS_API_TOKEN=your_coc_api_token
+```
+
+4. Run the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
+

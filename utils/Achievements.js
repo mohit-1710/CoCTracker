@@ -5,7 +5,7 @@ import { PiSword } from 'react-icons/pi';
 import Image from 'next/image';
 
 const Achievements = ({ data }) => {
-  const [achieves, setAchieves] = useState(data?.achievements);
+  const [achieves, setAchieves] = useState(data?.achievements || []);
 
   const sortAchievements = (property, ascending) => {
     const sortedAchievements = [...achieves].sort((a, b) => {
@@ -23,7 +23,7 @@ const Achievements = ({ data }) => {
   };
 
   const handleOriginalOrder = () => {
-    setAchieves(data?.achievements);
+    setAchieves(data?.achievements || []);
   };
 
   const stars = (a) =>
@@ -66,6 +66,10 @@ const Achievements = ({ data }) => {
       };
     }
   }, []);
+
+  if (!achieves || achieves.length === 0) {
+    return null;
+  }
 
   return (
     <>
@@ -115,7 +119,7 @@ const Achievements = ({ data }) => {
               </thead>
 
               <tbody>
-                {achieves?.map((a, i) => (
+                {achieves.map((a, i) => (
                   <tr key={i} className="border-b-[.5px] border-gray-500/30">
                     <td className="">
                       <Text b size={13} weight="">

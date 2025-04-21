@@ -6,11 +6,12 @@ import NavbarMain from "@/components/NavbarMain";
 
 const ProfileMainDetails = ({ data }) => {
   console.log(data , "data zzzzzzzzzzzzzzzzzzzzzz")
-  const roleOfPlayer = (data?.role === "admin") ? "elder" : data?.role
+  const roleOfPlayer = data?.role ? (data.role === "admin" ? "elder" : data.role) : "member";
+  
   const mainDetails =  [
     {
       id: 'Role',
-      text:roleOfPlayer.toUpperCase() || "-",
+      text: roleOfPlayer ? roleOfPlayer.toUpperCase() : "-",
       url: '/assets/others/sheild.png',
       color: 'error'
     },
@@ -119,6 +120,28 @@ const ProfileMainDetails = ({ data }) => {
           }}
         >
           <Card.Body>
+            <div className="flex justify-center items-center mb-4">
+              <div className="flex flex-row space-x-6">
+                <div className="flex flex-col items-center">
+                  <Image 
+                    src="/assets/others/battle.png"
+                    width={80}
+                    height={80}
+                    alt="Town Hall"
+                  />
+                  <Text size={14} weight="bold" css={{mt: "5px"}}>Town Hall {data?.townHallLevel}</Text>
+                </div>
+                <div className="flex flex-col items-center">
+                  <Image 
+                    src="/assets/others/builderTrophy.png"
+                    width={80}
+                    height={80}
+                    alt="Builder Hall"
+                  />
+                  <Text size={14} weight="bold" css={{mt: "5px"}}>Builder Hall {data?.builderHallLevel}</Text>
+                </div>
+              </div>
+            </div>
             <Grid.Container gap={2} className="justify-around" >
               {mainDetails.map((a, i) => {
                 return (
@@ -126,15 +149,6 @@ const ProfileMainDetails = ({ data }) => {
                     <Grid key={a.id} >
                       <Tooltip content={a.id} color={a.color} hideArrow css={{borderRadius:"8px"}} >
                         <div className="flex flex-row items-center">
-                      {/* <Avatar
-                            borderWeight="light"
-                            className="cursor-pointer transition-all ease-linear absolute"
-                            zoomed
-                            size="md"
-                            src={a.url}
-                            bordered
-                            squared
-                          /> */}
                           <Image 
                           src={a.url}
                           alt={a.id}

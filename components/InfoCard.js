@@ -36,7 +36,8 @@ const InfoCard = ({ data }) => {
     router.replace(router.asPath);
   }
 
-  const clanData = (data?.clan.tag).slice(1)
+  const clanData = data?.clan?.tag ? data.clan.tag.slice(1) : null;
+  
   const handleSubmitClan = () => {
     (clanData) ? (router.push(`../clanData/${clanData}`, undefined, { shallow: true })) : (console.log('Please enter clan tag'))
   }
@@ -213,15 +214,15 @@ const InfoCard = ({ data }) => {
                   className="flex flex-row justify-around items-center cursor-pointer group" onClick={handleSubmitClan}>
                   <div className="relative">
                     <div className="opacity-0 w-full h-full absolute bg-gradient-radial from-yellow-200 via-amber-200 to-sky-400 blur-xl scale-75 animate-text rounded-full group-hover:opacity-90 transition-all duration-800 ease-linear"></div>
-                    <Card.Image src={data.clan.badgeUrls.medium || "/assets/others/clanless.png"} className='relative h-12 sm:h-14 md:h-16 lg:h-18 drop-shadow-xl' alt="clan logo" />
+                    <Card.Image src={data?.clan?.badgeUrls?.medium || "/assets/others/clanless.png"} className='relative h-12 sm:h-14 md:h-16 lg:h-18 drop-shadow-xl' alt="clan logo" />
                   </div>
                   <Text
                     h1
                     className="flex flex-row bg-gradient-radial from-slate-100 via-slate-500 to-slate-800 text-2xl md:text-3xl xlg:text-4xl  bg-clip-text text-transparent antialiased drop-shadow-md animate-text transition-all ease-linear p-1"
                     weight="extrabold"
-                  >{data.clan?.name || "Clan X"}
+                  >{data?.clan?.name || "Clan X"}
                   </Text>
-                  {data.clan?.name ? <IoLinkOutline className="mt-2 ml-2 scale-105 group-hover:-rotate-45
+                  {data?.clan?.name ? <IoLinkOutline className="mt-2 ml-2 scale-105 group-hover:-rotate-45
                 group-hover:text-sky-400 transition-all duration-300"/> : <></>}
 
                 </motion.div>
@@ -248,26 +249,46 @@ const InfoCard = ({ data }) => {
                             src={a.iconUrls.small || '/assets/others/noLabel.png'}
                           />
                         </Tooltip>
-                      </Grid>) : <h1>No data Found</h1>
-                  }
+                      </Grid>
+                    ) : <></>}
                 </Grid.Container>
               </div>
-              <Spacer y={.5} />
-              <div>
-                <button className="threeDShadowLight flex flex-row items-center gap-2 bg-violet-600 px-8 py-2 rounded-2xl font-semibold hover:translate-y-1 transition-tranform duration-300 ease-out" onClick={handler}><Text weight="semibold" className="flex flex-row gap-2 items-center">Compare <GoArrowSwitch className="font-bold"/></Text></button>
-              </div>
+              <Spacer/>
+              <Card.Divider />
+              <Spacer/>
+              {army? <ProfileMainDetails data={data}/>: <div>
+                <br/>
+                <Profile data={data}/>
+                
+              </div>}
 
-              {/* Modal for Compare */}
-              <Modal
+              {army ? <HomeVillageArmy data={data} />
+                : <BuilderBaseArmy data={data} />}
+
+              <Spacer />
+              <Achievements data={data} />
+              <Card.Footer className="flex flex-col pt-5 pb-2 px-0">
+                <div className="flex flex-row justify-end gap-2 w-full">
+                  <Button auto color="primary" className="bg-gradient-to-bl from-blue-400 to-blue-600 text-slate-100 font-bold" onClick={handler}>COMPARE</Button>
+                </div>
+                <div className="flex flex-row justify-end gap-2 w-full">
+                <Comments player_tag={data.tag.slice(1)} />
+                </div>
+              </Card.Footer>
+
+            </div>
+          </span>
+        </Card>
+      </Container>
+      <Modal
         closeButton
-        blur
         aria-labelledby="modal-title"
         open={visible}
         onClose={closeHandler}
       >
         <Modal.Header>
           <Text id="modal-title" size={18}>
-            Enter a profile tag
+            Compare with:
           </Text>
         </Modal.Header>
         <Modal.Body>
@@ -275,88 +296,38 @@ const InfoCard = ({ data }) => {
             clearable
             bordered
             fullWidth
-            color="warning"
+            color="primary"
             size="lg"
-            placeholder="2LQUJU9YC"
-            contentLeft="#"
+            placeholder="Enter player tag"
             onChange={handleTagInputChange}
           />
         </Modal.Body>
         <Modal.Footer>
-          <button id="compareButtonModal" className="flex flex-row items-center gap-2 border-2 hover:bg-violet-600 border-violet-600/70 px-4 py-1 rounded-xl font-semibold" onClick={handleCompareButton}><Text size={15} className="flex flex-row gap-2 items-center">Compare <GoArrowSwitch/></Text></button>
+          <Button auto flat color="error" onPress={closeHandler}>
+            Close
+          </Button>
+          <Button auto onPress={() => {
+            handleCompareButton();
+            closeHandler();
+          }}>
+            Compare
+          </Button>
         </Modal.Footer>
       </Modal>
-
-              <Spacer y={1} />
-            </div>
-            <ProfileMainDetails data={data} />
-
-            {(army) ?
-              <div className='flex flex-col'>
-                <div className="flex flex-row items-center">
-                  <Text h1
-                    size={17}
-                    className='bg-clip-text animate-text min-w-fit text-transparent p-2 bg-gradient-to-tl from-slate-300 to-slate-800 drop-shadow-lg text-aligni'
-                    weight="extrabold"
-                  >
-                    Home Village Army
-                  </Text>
-                  <Card.Divider className="flex mt-1" />
-                </div>
-                <HomeVillageArmy data={data} />
-
-              </div> :
-              <div className='flex flex-col'>
-                <div className="flex flex-row items-center">
-                  <Text h1
-                    size={17}
-                    className='bg-clip-text animate-text min-w-fit text-transparent p-2 bg-gradient-to-tl from-slate-300 to-slate-800 px-2 drop-shadow-lg'
-                    weight="extrabold"
-                  >
-                    Builder Base Army
-                  </Text>
-                  <Card.Divider className="flex mt-1" />
-                </div>
-                <BuilderBaseArmy data={data} />
-              </div>
-            }
-            <div className='flex flex-col'>
-              <div className="flex flex-row items-center">
-                <Text h1
-                  size={17}
-                  className='bg-clip-text animate-text text-transparent p-2 bg-gradient-to-tl from-slate-300 to-slate-800 px-2 drop-shadow-lg'
-                  weight="extrabold"
-                >
-                  Achievements
-                </Text>
-                <Card.Divider className="flex mt-1" />
-              </div>
-              <Achievements data={data} />
-            </div>
-            <Spacer />
-            <Card.Divider />
-            <Spacer />
-            <Comments playerTag={data.tag} />
-          </span>
-        </Card>
-        <ToastContainer
-        position="top-center"
-        autoClose={4000}
-        limit={1}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-      </Container>
-
-
     </>
   )
 }
+
+const Profile = ({ data }) => {
+  return (
+    <div className="flex flex-col justify-center items-center gap-1">
+      <div
+        className="text-2xl sm:text-2xl md:text-3xl xlg:text-4xl bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent font-black drop-shadow-md">
+        Builder Base
+      </div>
+    </div>
+  )
+}
+
 
 export default InfoCard

@@ -27,9 +27,14 @@ const ProfileProgress = ({ data, position , hide }) => {
   const paddingWise = position === "player" && 4 || position === "clan" && 0;
   const progressSize = position === "player" && "lg" || position === "clan" && "md";
 
-  // const troopsLevel = (data?.troops).reduce((total, a) => total + Number(a.level), 0)
-  // const troopsMaxLevel = (data?.troops).reduce((total, a) => total + Number(a.maxLevel), 0)
-  const troopsLevel = (data?.troops).reduce((total, a) => {
+  // Add null checks for troops, heroes, spells, and achievements
+  const troops = data?.troops || [];
+  const heroes = data?.heroes || [];
+  const spells = data?.spells || [];
+  const achievements = data?.achievements || [];
+
+  // Calculate troop progress with null safety
+  const troopsLevel = troops.reduce((total, a) => {
     if (superTroopsList.includes(a.name)) {
       // Exclude super troops from calculation
       return total;
@@ -37,7 +42,7 @@ const ProfileProgress = ({ data, position , hide }) => {
     return total + Number(a.level);
   }, 0);
   
-  const troopsMaxLevel = (data?.troops).reduce((total, a) => {
+  const troopsMaxLevel = troops.reduce((total, a) => {
     if (superTroopsList.includes(a.name)) {
       // Exclude super troops from calculation
       return total;
@@ -45,19 +50,22 @@ const ProfileProgress = ({ data, position , hide }) => {
     return total + Number(a.maxLevel);
   }, 0);
 
-  const troopsPercent = Math.floor((troopsLevel / troopsMaxLevel) * 100)
+  const troopsPercent = troopsMaxLevel > 0 ? Math.floor((troopsLevel / troopsMaxLevel) * 100) : 0;
 
-  const heroesLevel = (data?.heroes).reduce((total, a) => total + Number(a.level), 0)
-  const heroesMaxLevel = (data?.heroes).reduce((total, a) => total + Number(a.maxLevel), 0)
-  const heroesPercent = Math.floor((heroesLevel / heroesMaxLevel) * 100)
+  // Calculate hero progress with null safety
+  const heroesLevel = heroes.reduce((total, a) => total + Number(a.level), 0);
+  const heroesMaxLevel = heroes.reduce((total, a) => total + Number(a.maxLevel), 0);
+  const heroesPercent = heroesMaxLevel > 0 ? Math.floor((heroesLevel / heroesMaxLevel) * 100) : 0;
 
-  const spellsLevel = (data?.spells).reduce((total, a) => total + Number(a.level), 0)
-  const spellsMaxLevel = (data?.spells).reduce((total, a) => total + Number(a.maxLevel), 0)
-  const spellsPercent = Math.floor((spellsLevel / spellsMaxLevel) * 100)
+  // Calculate spell progress with null safety
+  const spellsLevel = spells.reduce((total, a) => total + Number(a.level), 0);
+  const spellsMaxLevel = spells.reduce((total, a) => total + Number(a.maxLevel), 0);
+  const spellsPercent = spellsMaxLevel > 0 ? Math.floor((spellsLevel / spellsMaxLevel) * 100) : 0;
 
-  const achievementsLevel = (data?.achievements).reduce((total, a) => total + Number(a.stars), 0)
-  const achievementsMaxLevel = ((data?.achievements).length) * 3
-  const achievementsPercent = Math.floor((achievementsLevel / achievementsMaxLevel) * 100)
+  // Calculate achievement progress with null safety
+  const achievementsLevel = achievements.reduce((total, a) => total + Number(a.stars), 0);
+  const achievementsMaxLevel = achievements.length * 3;
+  const achievementsPercent = achievementsMaxLevel > 0 ? Math.floor((achievementsLevel / achievementsMaxLevel) * 100) : 0;
 
   return (
     <>
