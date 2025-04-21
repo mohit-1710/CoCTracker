@@ -3,26 +3,43 @@ import { useTheme as useNextTheme } from 'next-themes'
 import { useTheme } from '@nextui-org/react'
 import "@theme-toggles/react/css/Classic.css"
 import { motion,AnimatePresence,useAnimation } from "framer-motion";
-import RevealText from "@/utils/RevealText";
 import { useState, useEffect } from "react";
 import {useRouter} from "next/router"
 import axios from "axios";
-import IndexCaraousal from "@/components/IndexCaraousal";
 import { useRecoilState } from 'recoil';
 import { locationsState, userState } from "@/recoil/storage";
 import { useSession } from "next-auth/react";
 import Footer from "@/utils/Footer";
-import GlobalChat from "@/components/GlobalChat";
 import { GoArrowSwitch } from "react-icons/go";
 import { IoSearchSharp } from "react-icons/io5";
+import { Loading } from "@nextui-org/react";
+import dynamic from 'next/dynamic';
+
+// Dynamically import components that use window/document
+const IndexCaraousal = dynamic(() => import('@/components/IndexCaraousal'), {
+  ssr: false
+});
+
+const RevealText = dynamic(() => import('@/utils/RevealText'), {
+  ssr: false
+});
 
 export default function Home({data}) {
-  const {data:session} = useSession;
-  const [user , setUser ] = useRecoilState(userState);
-  const [locations , setLocations ] = useRecoilState(locationsState);
-
+  const {data:session} = useSession();
+  const [user, setUser] = useRecoilState(userState);
+  const [locations, setLocations] = useRecoilState(locationsState);
+  const [isMounted, setIsMounted] = useState(false);
+  
   const controls = useAnimation();
+  const router = useRouter();
+  const { setTheme } = useNextTheme();
+  const { isDark, type } = useTheme();
+  const [loader, setLoader] = useState(false);
+  
+  // Client-side only code
   useEffect(() => {
+    setIsMounted(true);
+    
     const observer = new IntersectionObserver((entries) => {
       const [entry] = entries;
       if (entry.isIntersecting) {
@@ -39,22 +56,16 @@ export default function Home({data}) {
       observer.observe(target);
     }
 
+    setTimeout(() => {
+      setLoader(false)
+    }, 500);
+
     return () => {
       if (target) {
         observer.unobserve(target);
       }
     };
   }, [controls]);
-
-  const router = useRouter()
-  const { setTheme } = useNextTheme();
-  const { isDark, type } = useTheme();
-  const [loader, setLoader] = useState(false)
-  useEffect(() => {
-    setTimeout(() => {
-      setLoader(false)
-    }, 500)
-  }, [])
 
   const handleCompareCard = () => router.push("/compareplayers");
   const handleSearchCard = () => router.push("/player");
@@ -80,12 +91,20 @@ export default function Home({data}) {
       icon:<GoArrowSwitch />
     },
   ];
+  
+  if (!isMounted) {
+    return (
+      <div className="flex justify-center items-center h-screen w-screen">
+        <Loading size="xl" />
+      </div>
+    );
+  }
+  
   return (
     <>
-
       {(loader) ? <div className="flex justify-center items-center h-screen w-screen">
         <div className="relative">
-          <RevealText text={paragraphText3} delay={1} className="absolute" />
+          <Loading size="xl" />
         </div>
       </div> :
         <>
@@ -184,7 +203,7 @@ export default function Home({data}) {
               </Text>
               </section>
             <Spacer y={1}/>
-            {data && 
+            {data && isMounted && 
           <IndexCaraousal data={data} />
           }
           <Footer />

@@ -43,9 +43,10 @@ const Achievements = ({ data }) => {
 
   const { isDark } = useTheme();
   const [show, setShow] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const funcGoToTop = () => {
-    if (document.documentElement.scrollTop > 150) {
+    if (typeof window !== 'undefined' && document.documentElement.scrollTop > 150) {
       setShow(true);
     } else {
       setShow(false);
@@ -53,8 +54,17 @@ const Achievements = ({ data }) => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", funcGoToTop);
-    window.addEventListener("load", funcGoToTop);
+    setIsMounted(true);
+    
+    if (typeof window !== 'undefined') {
+      window.addEventListener("scroll", funcGoToTop);
+      window.addEventListener("load", funcGoToTop);
+      
+      return () => {
+        window.removeEventListener("scroll", funcGoToTop);
+        window.removeEventListener("load", funcGoToTop);
+      };
+    }
   }, []);
 
   return (

@@ -2,9 +2,30 @@ import '@/styles/globals.css'
 import { NextUIProvider, createTheme } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { SessionProvider } from "next-auth/react"
 import { RecoilRoot } from 'recoil';
-import NavbarMain from "@/components/NavbarMain";
+import dynamic from 'next/dynamic';
+
+// Dynamically import NavbarMain with SSR disabled
+const NavbarMain = dynamic(() => import("@/components/NavbarMain"), {
+  ssr: false
+});
+
+// Create a client-side only wrapper component
+function ClientOnly({ children, ...delegated }) {
+  const [hasMounted, setHasMounted] = useState(false);
+  
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  
+  if (!hasMounted) {
+    return null;
+  }
+  
+  return <div {...delegated}>{children}</div>;
+}
 
 const lightTheme = createTheme({
   type: 'light',
@@ -64,24 +85,23 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-    <RecoilRoot>
-    <NextThemesProvider
-      defaultTheme="system"
-      attribute="class"
-      value={{
-        light: lightTheme.className,
-        dark: darkTheme.className
-      }}
-      >
-      <NextUIProvider>
-        <NavbarMain />
-        <Component {...pageProps} />
-      </NextUIProvider>
-    </NextThemesProvider>
-    </RecoilRoot>
+      <RecoilRoot>
+        <NextThemesProvider
+          defaultTheme="system"
+          attribute="class"
+          value={{
+            light: lightTheme.className,
+            dark: darkTheme.className
+          }}
+        >
+          <NextUIProvider>
+            <ClientOnly>
+              <NavbarMain />
+              <Component {...pageProps} />
+            </ClientOnly>
+          </NextUIProvider>
+        </NextThemesProvider>
+      </RecoilRoot>
     </SessionProvider>
-   
-
   )
-
 }
