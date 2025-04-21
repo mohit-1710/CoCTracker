@@ -7,10 +7,14 @@
   
 </div>
 
+<<<<<<< HEAD
 ## 🎮 About CoCTracker
 <div align="center">
   <img src="https://clashcodes.com/bases/th17-anti-super-archer-base-layout-coc-23.jpg" alt="CoCTracker Banner" width="100%"/>
 </div>
+=======
+#### Link - https://coc-tracker.vercel.app/
+>>>>>>> d24cae1187c8cfeca1150dd64d353e6fa534a97a
 
 CoCTracker is your ultimate companion for tracking and analyzing Clash of Clans player and clan data. Whether you're a casual player or a competitive clan leader, our platform provides real-time statistics, profile management, and detailed analytics to enhance your Clash of Clans experience.
 
@@ -62,6 +66,7 @@ CoCTracker is your ultimate companion for tracking and analyzing Clash of Clans 
 git clone https://github.com/yourusername/CoCTracker.git
 cd CoCTracker
 ```
+<<<<<<< HEAD
 
 2. Install dependencies:
 ```bash
@@ -88,3 +93,5 @@ npm run dev
 yarn dev
 ```
 
+=======
+>>>>>>> d24cae1187c8cfeca1150dd64d353e6fa534a97a
