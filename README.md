@@ -14,7 +14,6 @@
 </div>
 =======
 #### Link - https://coc-tracker.vercel.app/
->>>>>>> d24cae1187c8cfeca1150dd64d353e6fa534a97a
 
 CoCTracker is your ultimate companion for tracking and analyzing Clash of Clans player and clan data. Whether you're a casual player or a competitive clan leader, our platform provides real-time statistics, profile management, and detailed analytics to enhance your Clash of Clans experience.
 
